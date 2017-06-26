@@ -1,0 +1,17 @@
+---
+# Role configure tasks
+
+- block:
+
+  - name: configure xinetd service
+    template:
+      src: service.j2
+      dest: "{{ xinetd_xinetd_d_path }}/{{ xinetd_service_name }}"
+      owner: root
+      group: root
+      mode: 0644
+      backup: yes
+
+  tags:
+    - role::xinetd_service
+    - role::xinetd_service::configure

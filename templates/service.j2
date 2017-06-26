@@ -1,0 +1,20 @@
+#
+# {{ ansible_managed }}
+#
+
+service {{ xinetd_service_name }}
+{
+  disable                 = {{ xinetd_service_disable }}
+  socket_type             = {{ xinetd_service_socket_type }}
+  protocol                = {{ xinetd_service_protocol }}
+  wait                    = {{ xinetd_service.wait }}
+  user                    = {{ xinetd_service.user }}
+  server                  = {{ xinetd_service.server }}
+  server_args             = {{ xinetd_service.server_args }}
+  per_source              = {{ xinetd_service.per_source }}
+  cps                     = {{ xinetd_service.cps }}
+  flags                   = {{ xinetd_service.flags }}
+
+{% if xinetd_service.log_on_failure is defined %}
+        flags                   {{ xinetd_service_log_on_failure_operator }} {{ xinetd_service.log_on_failure }}
+}

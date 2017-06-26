@@ -1,0 +1,10 @@
+---
+# Role install tasks
+
+- name: install specific package required by xinetd service
+  package:
+    name: "{{ xinetd_service_package }}"
+    state: present
+  tags:
+    - role::xinetd
+    - role::xinetd::install

@@ -1,0 +1,23 @@
+---
+# Tasks for tesing role
+
+- name: run idempotence test
+  hosts: localhost
+  roles:
+    - role: docker_presets
+    - role: docker_sandbox
+      docker_sandbox_state: started
+
+- name: test xinetd role
+  hosts: docker_sandbox_containers
+  vars:
+  roles:
+    - xinetd_service
+  tags:
+    - idempotence
+
+- name: cleanup docker docker sandbox
+  hosts: localhost
+  roles:
+    - role: docker_sandbox
+      docker_sandbox_state: absent
