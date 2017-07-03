@@ -7,12 +7,34 @@
     - role: docker_presets
     - role: docker_sandbox
       docker_sandbox_state: started
+      docker_sandbox_idempotence_test: false
 
-- name: test xinetd role
+- name: test xinetd_service role
   hosts: docker_sandbox_containers
-  vars:
   roles:
-    - xinetd_service
+    - role: xinetd_service
+      xinetd_service_name: echo
+      xinetd_service_id: echo-stream
+      xinetd_service_type: INTERNAL
+      xinetd_service_disable: no
+      xinetd_service_socket_type: stream
+      xinetd_service_protocol: tcp
+      xinetd_service_user: root
+      xinetd_service_wait: "no"
+  tags:
+    - idempotence
+
+- name: test xinetd_service is listening
+  hosts: docker_sandbox_containers
+  tasks:
+    - name: check echo service is listening
+      wait_for:
+        host: "{{ ansible_host }}"
+        state: started
+        port: 7
+        delay: 5
+        timeout: 10
+      changed_when: false
   tags:
     - idempotence
 

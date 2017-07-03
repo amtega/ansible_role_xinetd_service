@@ -4,17 +4,46 @@
 
 service {{ xinetd_service_name }}
 {
+{% if xinetd_service_id %}
+  id                      = {{ xinetd_service_id }}
+{% endif %}
+{% if xinetd_service_type %}
+  type                    = {{ xinetd_service_type }}
+{% endif %}
+{% if xinetd_service_disable %}
   disable                 = {{ xinetd_service_disable }}
+{% endif %}
+{% if xinetd_service_socket_type %}
   socket_type             = {{ xinetd_service_socket_type }}
+{% endif %}
+{% if xinetd_service_protocol %}
   protocol                = {{ xinetd_service_protocol }}
-  wait                    = {{ xinetd_service.wait }}
-  user                    = {{ xinetd_service.user }}
-  server                  = {{ xinetd_service.server }}
-  server_args             = {{ xinetd_service.server_args }}
-  per_source              = {{ xinetd_service.per_source }}
-  cps                     = {{ xinetd_service.cps }}
-  flags                   = {{ xinetd_service.flags }}
-
-{% if xinetd_service.log_on_failure is defined %}
-        flags                   {{ xinetd_service_log_on_failure_operator }} {{ xinetd_service.log_on_failure }}
+{% endif %}
+{% if xinetd_service_wait %}
+  wait                    = {{ xinetd_service_wait }}
+{% endif %}
+{% if xinetd_service_user %}
+  user                    = {{ xinetd_service_user }}
+{% endif %}
+{% if xinetd_service_server %}
+  server                  = {{ xinetd_service_server }}
+{% endif %}
+{% if xinetd_service_server_args %}
+  server_args             = {{ xinetd_service_server_args }}
+{% endif %}
+{% if xinetd_service_per_source %}
+  per_source              = {{ xinetd_service_per_source }}
+{% endif %}
+{% if xinetd_service_cps %}
+  cps                     = {{ xinetd_service_cps }}
+{% endif %}
+{% if xinetd_service_flags %}
+  flags                   = {{ xinetd_service_flags }}
+{% endif %}
+{% if xinetd_service_log_on_success  %}
+  log_on_failure          = {{ xinetd_service_log_on_success }}
+{% endif %}
+{% if xinetd_service_log_on_failure %}
+  log_on_failure          = {{ xinetd_service_log_on_failure }}
+{%- endif -%}
 }

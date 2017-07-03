@@ -22,8 +22,16 @@ This is an example playbook:
 ---
 
 - hosts: all
-  roles:
-    - xinetd_service
+  roles:    
+    - role: xinetd_service
+      xinetd_service_name: echo
+      xinetd_service_id: echo-stream
+      xinetd_service_type: INTERNAL
+      xinetd_service_disable: no
+      xinetd_service_socket_type: stream
+      xinetd_service_protocol: tcp
+      xinetd_service_user: root
+      xinetd_service_wait: "no"
 ```
 
 ## Testing
