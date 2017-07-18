@@ -7,7 +7,6 @@
     - role: docker_presets
     - role: docker_sandbox
       docker_sandbox_state: started
-      docker_sandbox_idempotence_test: false
 
 - name: test xinetd_service role
   hosts: docker_sandbox_containers
