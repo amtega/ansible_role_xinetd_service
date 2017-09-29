@@ -8,3 +8,8 @@
 
 - Enabled idempotence tests.
 - Trigger xinetd reload after configuring the service.
+
+## 2017-09-29
+
+- Refactored include directives by include_tasks / import_tasks.
+- Updated documentation.

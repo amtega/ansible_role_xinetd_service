@@ -2,13 +2,13 @@
 # Role tasks
 
 - name: install xinetd service
-  include: install.yml
+  import_tasks: install.yml
   tags:
     - role::xinetd_service
     - role::xinetd_service::install
 
 - name: configure xinetd service
-  include: configure.yml
+  import_tasks: configure.yml
   tags:
     - role::xinetd_service
     - role::xinetd_service::configure
