@@ -5,7 +5,7 @@
   package:
     name: "{{ xinetd_service_package }}"
     state: present
-  when: xinetd_service_package
+  when: xinetd_service_package | length > 0
   tags:
     - role::xinetd
     - role::xinetd::install

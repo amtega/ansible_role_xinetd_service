@@ -13,3 +13,7 @@
 
 - Refactored include directives by include_tasks / import_tasks.
 - Updated documentation.
+
+## 2017-10-09
+
+- Fixed bug in install task.
