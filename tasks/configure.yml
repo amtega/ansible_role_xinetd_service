@@ -13,8 +13,7 @@
       group: root
       mode: 0644
       backup: yes
-    notify:
-      - xinetd reload
+    notify: "reload xinetd"
 
   tags:
     - role::xinetd_service

@@ -17,3 +17,8 @@
 ## 2017-10-09
 
 - Fixed bug in install task.
+
+## 2017-10-13
+
+- Fixed metadata information.
+- Fixed notifications during configuration.
