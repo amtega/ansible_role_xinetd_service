@@ -22,3 +22,9 @@
 
 - Fixed metadata information.
 - Fixed notifications during configuration.
+
+## 2017-10-16
+
+- Force handler flush after configurtion.
+- Add service to tcp wrappers allow file.
+- Added only_from and no_access variables.

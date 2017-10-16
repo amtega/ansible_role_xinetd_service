@@ -1,2 +1,5 @@
 ---
 # Role variables
+
+xinetd_service_hosts_allow_file: /etc/hosts.allow
+xinetd_service_hosts_deny_file: /etc/hosts.deny

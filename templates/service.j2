@@ -28,6 +28,12 @@ service {{ xinetd_service_name }}
 {% if xinetd_service_server %}
   server                  = {{ xinetd_service_server }}
 {% endif %}
+{% if xinetd_service_no_access %}
+  no_access               = {{ xinetd_service_no_access | join(' ') }}
+{% endif %}
+{% if xinetd_service_only_from %}
+  only_from               = {{ xinetd_service_only_from | join(' ') }}
+{% endif %}
 {% if xinetd_service_server_args %}
   server_args             = {{ xinetd_service_server_args }}
 {% endif %}
