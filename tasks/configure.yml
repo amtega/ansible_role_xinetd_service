@@ -21,11 +21,14 @@
       regexp: "^{{ xinetd_service_tcp_wrapper | basename }}:"
       line: >-
         {{ xinetd_service_tcp_wrapper | basename }}:
-        {{ xinetd_service_only_from | join(' ') }}
+        {{ xinetd_service_tcp_wrapper_allow | join(' ') }}
     vars:
       xinetd_service_tcp_wrapper: >-
         {{ (xinetd_service_server is not none)
           | ternary(xinetd_service_server, xinetd_service_id) }}
+      xinetd_service_tcp_wrapper_allow: >-
+        {{ (xinetd_service_only_from | length > 0)
+          | ternary(xinetd_service_only_from, ["ALL"]) }}
 
   - name: add service to tcp wrappers deny file
     lineinfile:
@@ -34,10 +37,14 @@
       line: >-
         {{ xinetd_service_tcp_wrapper | basename }}:
         {{ xinetd_service_no_access | join(' ') }}
+    when: xinetd_service_no_access | length > 0
     vars:
       xinetd_service_tcp_wrapper: >-
         {{ (xinetd_service_server is not none)
           | ternary(xinetd_service_server, xinetd_service_id) }}
+      xinetd_service_tcp_wrapper_deny: >-
+        {{ (xinetd_service_no_access | length > 0)
+          | ternary(xinetd_service_no_access, []) }}
 
   - meta: flush_handlers
 
