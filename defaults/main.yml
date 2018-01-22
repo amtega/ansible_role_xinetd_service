@@ -2,8 +2,8 @@
 # Role default lower priority variables
 
 #
-# Supported atributes for an xinetd service.
-# See xinetd.conf man page for details.
+# Supported atributes for an xinetd service. See xinetd.conf man page for
+# details.
 #
 
 xinetd_service_name:
