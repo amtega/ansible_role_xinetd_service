@@ -4,14 +4,14 @@
 - name: run idempotence test
   hosts: localhost
   roles:
-    - role: docker_presets
-    - role: docker_sandbox
+    - role: amtega.docker_presets
+    - role: amtega.docker_sandbox
       docker_sandbox_state: started
 
 - name: test xinetd_service role
   hosts: docker_sandbox_containers
   roles:
-    - role: xinetd_service
+    - role: amtega.xinetd_service
       xinetd_service_name: echo
       xinetd_service_id: echo-stream
       xinetd_service_type: INTERNAL
@@ -51,5 +51,5 @@
 - name: cleanup docker docker sandbox
   hosts: localhost
   roles:
-    - role: docker_sandbox
+    - role: amtega.docker_sandbox
       docker_sandbox_state: absent
