@@ -2,52 +2,50 @@
 # Role configure tasks
 
 - block:
+    - name: configure xinetd service
+      template:
+        src: service.j2
+        dest: >-
+          {{ xinetd_xinetd_d_path }}/{{ xinetd_service_id
+                                        | default(xinetd_service_name) }}
+        owner: root
+        group: root
+        mode: 0644
+        backup: yes
+      notify: "reload xinetd"
 
-  - name: configure xinetd service
-    template:
-      src: service.j2
-      dest: >-
-        {{ xinetd_xinetd_d_path }}/{{ xinetd_service_id
-                                      | default(xinetd_service_name) }}
-      owner: root
-      group: root
-      mode: 0644
-      backup: yes
-    notify: "reload xinetd"
+    - name: add service to tcp wrappers allow file
+      lineinfile:
+        dest: "{{ xinetd_service_hosts_allow_file }}"
+        regexp: "^{{ xinetd_service_tcp_wrapper | basename }}:"
+        line: >-
+          {{ xinetd_service_tcp_wrapper | basename }}:
+          {{ xinetd_service_tcp_wrapper_allow | join(' ') }}
+      vars:
+        xinetd_service_tcp_wrapper: >-
+          {{ (xinetd_service_server is not none)
+            | ternary(xinetd_service_server, xinetd_service_id) }}
+        xinetd_service_tcp_wrapper_allow: >-
+          {{ (xinetd_service_only_from | length > 0)
+            | ternary(xinetd_service_only_from, ["ALL"]) }}
 
-  - name: add service to tcp wrappers allow file
-    lineinfile:
-      dest: "{{ xinetd_service_hosts_allow_file }}"
-      regexp: "^{{ xinetd_service_tcp_wrapper | basename }}:"
-      line: >-
-        {{ xinetd_service_tcp_wrapper | basename }}:
-        {{ xinetd_service_tcp_wrapper_allow | join(' ') }}
-    vars:
-      xinetd_service_tcp_wrapper: >-
-        {{ (xinetd_service_server is not none)
-          | ternary(xinetd_service_server, xinetd_service_id) }}
-      xinetd_service_tcp_wrapper_allow: >-
-        {{ (xinetd_service_only_from | length > 0)
-          | ternary(xinetd_service_only_from, ["ALL"]) }}
+    - name: add service to tcp wrappers deny file
+      lineinfile:
+        dest: "{{ xinetd_service_hosts_deny_file }}"
+        regexp: "^{{ xinetd_service_tcp_wrapper | basename }}:"
+        line: >-
+          {{ xinetd_service_tcp_wrapper | basename }}:
+          {{ xinetd_service_no_access | join(' ') }}
+      when: xinetd_service_no_access | length > 0
+      vars:
+        xinetd_service_tcp_wrapper: >-
+          {{ (xinetd_service_server is not none)
+            | ternary(xinetd_service_server, xinetd_service_id) }}
+        xinetd_service_tcp_wrapper_deny: >-
+          {{ (xinetd_service_no_access | length > 0)
+            | ternary(xinetd_service_no_access, []) }}
 
-  - name: add service to tcp wrappers deny file
-    lineinfile:
-      dest: "{{ xinetd_service_hosts_deny_file }}"
-      regexp: "^{{ xinetd_service_tcp_wrapper | basename }}:"
-      line: >-
-        {{ xinetd_service_tcp_wrapper | basename }}:
-        {{ xinetd_service_no_access | join(' ') }}
-    when: xinetd_service_no_access | length > 0
-    vars:
-      xinetd_service_tcp_wrapper: >-
-        {{ (xinetd_service_server is not none)
-          | ternary(xinetd_service_server, xinetd_service_id) }}
-      xinetd_service_tcp_wrapper_deny: >-
-        {{ (xinetd_service_no_access | length > 0)
-          | ternary(xinetd_service_no_access, []) }}
-
-  - meta: flush_handlers
-
+    - meta: flush_handlers
   tags:
     - role::xinetd_service
     - role::xinetd_service::configure
