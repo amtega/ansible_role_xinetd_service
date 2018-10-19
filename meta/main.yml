@@ -2,6 +2,7 @@
 # Role dependencies
 
 galaxy_info:
+  role_name: xinetd_service
   author: Juan Antonio Valiño García
   description: Setup a xinetd specific service
   company: AMTEGA - Xunta de Galicia
