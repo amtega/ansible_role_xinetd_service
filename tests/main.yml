@@ -34,7 +34,7 @@
   tasks:
     - name: check echo service is listening
       wait_for:
-        host: "{{ ansible_host }}"
+        host: localhost
         state: started
         port: 7
         delay: 5
