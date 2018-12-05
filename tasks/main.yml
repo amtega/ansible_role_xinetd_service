@@ -44,7 +44,5 @@
         xinetd_service_tcp_wrapper_deny: >-
           {{ (xinetd_service_no_access | length > 0)
             | ternary(xinetd_service_no_access, []) }}
-
-    - meta: flush_handlers
   tags:
     - role::xinetd_service
