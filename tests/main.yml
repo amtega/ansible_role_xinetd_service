@@ -32,6 +32,8 @@
       xinetd_service_no_access: [ 127.0.0.5 ]
 
   tasks:
+    - meta: flush_handlers
+    
     - name: check echo service is listening
       wait_for:
         host: localhost
