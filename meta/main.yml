@@ -17,6 +17,7 @@ galaxy_info:
       versions:
         - 27
         - 28
+        - 29
   galaxy_tags:
     - networking
     - system
@@ -24,16 +25,48 @@ galaxy_info:
 
 dependencies:
   - role: amtega.check_platform
-    check_platform_distributions:
-      centos: 6
-      fedora: 27
-      rhel: 6
+    vars:
+      check_platform_distributions:
+        centos: 6
+        fedora: 27
+        rhel: 6
+    tags:
+      - role::xinetd_service
 
   - role: amtega.xinetd
+    tags:
+      - role::xinetd_service
 
   - role: amtega.packages
-    packages_os:
-      all:
+    vars:
+      packages_os:
         all:
-          - name: "{{ xinetd_service_package }}"
-            state: present
+          all:
+            - name: "{{ xinetd_service_package }}"
+              state: present
+    tags:
+      - role::xinetd_service
+
+  - role: amtega.tcpwrappers
+    vars:
+      tcpwrappers_allow:
+        - daemons:
+            - >-
+              {{ (xinetd_service_server is not none)
+                 | ternary(xinetd_service_server, xinetd_service_id) }}
+          clients: >-
+            {{ (xinetd_service_only_from | length > 0)
+               | ternary(xinetd_service_only_from, ["ALL"]) }}
+          state: present
+
+      tcpwrappers_deny:
+        - daemons:
+            - >-
+              {{ (xinetd_service_server is not none)
+                 | ternary(xinetd_service_server, xinetd_service_id) }}
+          clients: >-
+            {{ (xinetd_service_no_access | length > 0)
+                | ternary(xinetd_service_no_access, []) }}
+          state: present
+    tags:
+      - role::xinetd_service
