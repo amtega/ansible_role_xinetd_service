@@ -9,7 +9,8 @@
         [? starts_with(name, `centos-6`)
            || starts_with(name, `centos-7`)
            || starts_with(name, `fedora-27`)
-           || starts_with(name, `fedora-28`) ]
+           || starts_with(name, `fedora-28`)
+           || starts_with(name, `fedora-29`) ]
 
     - role: amtega.docker_sandbox
       docker_sandbox_state: started
@@ -33,7 +34,7 @@
 
   tasks:
     - meta: flush_handlers
-    
+
     - name: check echo service is listening
       wait_for:
         host: localhost
@@ -44,13 +45,13 @@
       changed_when: false
 
     - name: check tcp wrappers allow file
-      shell: "grep 'echo-stream: 127.0.0.1'  /etc/hosts.allow"
+      shell: "grep 'echo-stream:127.0.0.1'  /etc/hosts.allow"
       register: check_tcp_wrappers_allow_result
       changed_when: false
       failed_when: check_tcp_wrappers_allow_result.rc != 0
 
     - name: check tcp wrappers deny file
-      shell: "grep 'echo-stream: 127.0.0.5' /etc/hosts.deny"
+      shell: "grep 'echo-stream:127.0.0.5' /etc/hosts.deny"
       register: check_tcp_wrappers_deny_result
       changed_when: false
       failed_when: check_tcp_wrappers_deny_result.rc != 0
