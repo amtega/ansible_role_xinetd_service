@@ -1,7 +1,7 @@
 ---
 # Tasks for testing role
 
-- name: run idempotence test
+- name: Run idempotence test
   hosts: localhost
   roles:
     - role: amtega.docker_presets
@@ -17,7 +17,7 @@
   tags:
     - sandbox
 
-- name: test xinetd_service role
+- name: Test xinetd_service role
   hosts: docker_sandbox_containers
   roles:
     - role: amtega.xinetd_service
@@ -35,7 +35,7 @@
   tasks:
     - meta: flush_handlers
 
-    - name: check echo service is listening
+    - name: Check echo service is listening
       wait_for:
         host: localhost
         state: started
@@ -44,13 +44,13 @@
         timeout: 10
       changed_when: false
 
-    - name: check tcp wrappers allow file
+    - name: Check tcp wrappers allow file
       shell: "grep 'echo-stream:127.0.0.1'  /etc/hosts.allow"
       register: check_tcp_wrappers_allow_result
       changed_when: false
       failed_when: check_tcp_wrappers_allow_result.rc != 0
 
-    - name: check tcp wrappers deny file
+    - name: Check tcp wrappers deny file
       shell: "grep 'echo-stream:127.0.0.5' /etc/hosts.deny"
       register: check_tcp_wrappers_deny_result
       changed_when: false
@@ -59,7 +59,7 @@
   tags:
     - idempotence
 
-- name: cleanup docker docker sandbox
+- name: Cleanup docker docker sandbox
   hosts: localhost
   roles:
     - role: amtega.docker_sandbox
