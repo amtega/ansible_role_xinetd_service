@@ -2,7 +2,7 @@
 # Role tasks
 
 - block:
-    - name: configure xinetd service
+    - name: Configure xinetd service
       template:
         src: service.j2
         dest: >-

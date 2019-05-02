@@ -63,7 +63,8 @@ dependencies:
         - daemons:
             - >-
               {{ (xinetd_service_server is not none)
-                 | ternary(xinetd_service_server, xinetd_service_id) }}
+                 | ternary(xinetd_service_server | basename,
+                           xinetd_service_id) }}
           clients: >-
             {{ (xinetd_service_no_access | length > 0)
                 | ternary(xinetd_service_no_access, []) }}
