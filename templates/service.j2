@@ -4,52 +4,52 @@
 
 service {{ xinetd_service_name }}
 {
-{% if xinetd_service_id %}
+{% if xinetd_service_id is defined %}
   id                      = {{ xinetd_service_id }}
 {% endif %}
-{% if xinetd_service_type %}
+{% if xinetd_service_type is defined %}
   type                    = {{ xinetd_service_type }}
 {% endif %}
-{% if xinetd_service_disable %}
+{% if xinetd_service_disable is defined %}
   disable                 = {{ xinetd_service_disable }}
 {% endif %}
-{% if xinetd_service_socket_type %}
+{% if xinetd_service_socket_type is defined%}
   socket_type             = {{ xinetd_service_socket_type }}
 {% endif %}
-{% if xinetd_service_protocol %}
+{% if xinetd_service_protocol is defined %}
   protocol                = {{ xinetd_service_protocol }}
 {% endif %}
-{% if xinetd_service_wait %}
+{% if xinetd_service_wait is defined %}
   wait                    = {{ xinetd_service_wait }}
 {% endif %}
-{% if xinetd_service_user %}
+{% if xinetd_service_user is defined %}
   user                    = {{ xinetd_service_user }}
 {% endif %}
-{% if xinetd_service_server %}
+{% if xinetd_service_server is defined %}
   server                  = {{ xinetd_service_server }}
 {% endif %}
-{% if xinetd_service_no_access %}
+{% if xinetd_service_no_access is defined %}
   no_access               = {{ xinetd_service_no_access | join(' ') }}
 {% endif %}
-{% if xinetd_service_only_from %}
+{% if xinetd_service_only_from is defined %}
   only_from               = {{ xinetd_service_only_from | join(' ') }}
 {% endif %}
-{% if xinetd_service_server_args %}
+{% if xinetd_service_server_args is defined %}
   server_args             = {{ xinetd_service_server_args }}
 {% endif %}
-{% if xinetd_service_per_source %}
+{% if xinetd_service_per_source is defined %}
   per_source              = {{ xinetd_service_per_source }}
 {% endif %}
-{% if xinetd_service_cps %}
+{% if xinetd_service_cps is defined %}
   cps                     = {{ xinetd_service_cps }}
 {% endif %}
-{% if xinetd_service_flags %}
+{% if xinetd_service_flags is defined %}
   flags                   = {{ xinetd_service_flags }}
 {% endif %}
-{% if xinetd_service_log_on_success  %}
+{% if xinetd_service_log_on_success is defined %}
   log_on_failure          = {{ xinetd_service_log_on_success }}
 {% endif %}
-{% if xinetd_service_log_on_failure %}
+{% if xinetd_service_log_on_failure is defined %}
   log_on_failure          = {{ xinetd_service_log_on_failure }}
 {%- endif -%}
 }

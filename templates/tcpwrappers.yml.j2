@@ -1,0 +1,23 @@
+{% if xinetd_service_server is defined %}
+{% set xinetd_service_server_binary = xinetd_service_server | basename %}
+{% endif %}
+
+allow:
+{% if xinetd_service_server_binary is defined or xinetd_service_id is defined %}
+  - daemons: [{{ xinetd_service_server_binary | default(xinetd_service_id) | to_json }}]
+{% endif %}
+{% if xinetd_service_only_from | default([]) | length > 0 %}
+    clients: {{ xinetd_service_only_from | to_json }}
+{% else %}
+    clients: ["ALL"]
+{% endif %}
+    state: present
+
+deny:
+{% if xinetd_service_server_binary is defined or xinetd_service_id is defined %}
+  - daemons: [{{ xinetd_service_server_binary | default(xinetd_service_id) }} | to_json]
+{% endif %}
+{% if xinetd_service_no_access | default([]) | length > 0 %}
+    clients: {{ xinetd_service_no_access | to_json }}
+{% endif %}
+    state: present

@@ -1,17 +1,16 @@
 ---
 # Role tasks
 
-- block:
-    - name: Configure xinetd service
-      template:
-        src: service.j2
-        dest: >-
-          {{ xinetd_xinetd_d_path }}/{{ xinetd_service_id
-                                        | default(xinetd_service_name) }}
-        owner: root
-        group: root
-        mode: 0644
-        backup: yes
-      notify: "reload xinetd"
+- name: Configure xinetd service
+  template:
+    src: service.j2
+    dest: >-
+      {{ xinetd_xinetd_d_path }}/{{ xinetd_service_id
+                                    | default(xinetd_service_name) }}
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify: "reload xinetd"
   tags:
     - role::xinetd_service
