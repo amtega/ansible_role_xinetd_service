@@ -11,7 +11,7 @@ service {{ xinetd_service_name }}
   type                    = {{ xinetd_service_type }}
 {% endif %}
 {% if xinetd_service_disable is defined %}
-  disable                 = {{ xinetd_service_disable }}
+  disable                 = {{ (xinetd_service_disable) | ternary("yes", "no") }}
 {% endif %}
 {% if xinetd_service_socket_type is defined%}
   socket_type             = {{ xinetd_service_socket_type }}
@@ -47,9 +47,9 @@ service {{ xinetd_service_name }}
   flags                   = {{ xinetd_service_flags }}
 {% endif %}
 {% if xinetd_service_log_on_success is defined %}
-  log_on_failure          = {{ xinetd_service_log_on_success }}
+  log_on_success          = {{ (xinetd_service_log_on_success) | ternary("yes", "no") }}
 {% endif %}
 {% if xinetd_service_log_on_failure is defined %}
-  log_on_failure          = {{ xinetd_service_log_on_failure }}
+  log_on_failure          = {{ (xinetd_service_log_on_failure) | ternary("yes", "no") }}
 {%- endif -%}
 }
