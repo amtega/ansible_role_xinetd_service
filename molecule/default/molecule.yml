@@ -1,0 +1,74 @@
+---
+
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: centos6
+    image: centos:6
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - molecule_hosts
+  - name: centos7
+    image: centos:7
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - molecule_hosts
+  - name: fedora29
+    image: fedora:29
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - molecule_hosts
+      - molecule_hosts_fedora
+  - name: fedora30
+    image: fedora:30
+    command: /sbin/init
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    groups:
+      - molecule_hosts
+      - molecule_hosts_fedora
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      molecule_hosts:
+        xinetd_service_name: echo
+        xinetd_service_id: echo-stream
+        xinetd_service_type: INTERNAL
+        xinetd_service_disable: no
+        xinetd_service_socket_type: stream
+        xinetd_service_protocol: tcp
+        xinetd_service_user: root
+        xinetd_service_wait: "no"
+        xinetd_service_only_from: [ 127.0.0.1 ]
+        xinetd_service_no_access: [ 127.0.0.5 ]
+      molecule_hosts_fedora:
+        ansible_python_interpreter: /usr/bin/python3
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
