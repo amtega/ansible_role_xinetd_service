@@ -34,6 +34,7 @@ dependencies:
   - role: amtega.xinetd
 
   - role: amtega.packages
+    when: xinetd_service_package is defined
     vars:
       packages_os:
         all:

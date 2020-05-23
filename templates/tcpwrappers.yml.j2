@@ -15,7 +15,7 @@ allow:
 
 deny:
 {% if xinetd_service_server_binary is defined or xinetd_service_id is defined %}
-  - daemons: [{{ xinetd_service_server_binary | default(xinetd_service_id) }} | to_json]
+  - daemons: [{{ xinetd_service_server_binary | default(xinetd_service_id) | to_json }}]
 {% endif %}
 {% if xinetd_service_no_access | default([]) | length > 0 %}
     clients: {{ xinetd_service_no_access | to_json }}
