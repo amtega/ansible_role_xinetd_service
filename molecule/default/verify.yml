@@ -1,13 +1,9 @@
 ---
 
-- name: Converge
+- name: Verify
   hosts: molecule_hosts
   gather_facts: no
-  roles:
-    - amtega.xinetd_service
   tasks:
-    - meta: flush_handlers
-
     - name: Check echo service is listening
       wait_for:
         host: localhost
