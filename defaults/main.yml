@@ -9,6 +9,7 @@
 # xinetd_service_type:
 # xinetd_service_package:
 # xinetd_service_disable:
+# xinetd_service_port:
 # xinetd_service_socket_type:
 # xinetd_service_protocol:
 # xinetd_service_wait:

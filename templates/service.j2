@@ -11,7 +11,10 @@ service {{ xinetd_service_name }}
   type                    = {{ xinetd_service_type }}
 {% endif %}
 {% if xinetd_service_disable is defined %}
-  disable                 = {{ (xinetd_service_disable) | ternary("yes", "no") }}
+  disable                 = {{ (xinetd_service_disable | bool) | ternary("yes", "no") }}
+{% endif %}
+{% if xinetd_service_port is defined%}
+  port                    = {{ xinetd_service_port }}
 {% endif %}
 {% if xinetd_service_socket_type is defined%}
   socket_type             = {{ xinetd_service_socket_type }}
@@ -20,7 +23,7 @@ service {{ xinetd_service_name }}
   protocol                = {{ xinetd_service_protocol }}
 {% endif %}
 {% if xinetd_service_wait is defined %}
-  wait                    = {{ xinetd_service_wait }}
+  wait                    = {{ (xinetd_service_wait | bool) | ternary("yes", "no") }}
 {% endif %}
 {% if xinetd_service_user is defined %}
   user                    = {{ xinetd_service_user }}
@@ -28,10 +31,10 @@ service {{ xinetd_service_name }}
 {% if xinetd_service_server is defined %}
   server                  = {{ xinetd_service_server }}
 {% endif %}
-{% if xinetd_service_no_access is defined %}
+{% if xinetd_service_no_access | default([]) | length > 0 %}
   no_access               = {{ xinetd_service_no_access | join(' ') }}
 {% endif %}
-{% if xinetd_service_only_from is defined %}
+{% if xinetd_service_only_from | default([]) | length > 0 %}
   only_from               = {{ xinetd_service_only_from | join(' ') }}
 {% endif %}
 {% if xinetd_service_server_args is defined %}
