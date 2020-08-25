@@ -12,6 +12,12 @@
         group: root
         mode: 0644
         backup: yes
-      notify: "reload xinetd"
+      register: xinetd_service_configure_result
+
+    - name: Reload xinetd
+      service:
+        name: xinetd
+        state: reloaded
+      when: xinetd_service_configure_result is changed
   tags:
     - role::xinetd_service
