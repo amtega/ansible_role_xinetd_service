@@ -48,6 +48,10 @@ platforms:
       - molecule_hosts_fedora
 provisioner:
   name: ansible
+  config_options:
+    defaults:
+      callback_enabled: profile_tasks
+      action_plugins: $PWD/action_plugins  
   inventory:
     hosts:
       molecule_hosts:
