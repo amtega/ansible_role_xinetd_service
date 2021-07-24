@@ -2,6 +2,39 @@
 # Role tasks
 
 - block:
+    - name: Assert distribution is compatible
+      assert:
+        that: >-
+          (ansible_facts.distribution | lower in ["centos", "rhel"]
+           and ansible_facts.distribution_major_version is version("8", "<"))
+          or (ansible_facts.distribution | lower == "fedora"
+           and ansible_facts.distribution_major_version is version("34", "<"))
+        fail_msg: Distribution is not compatible
+
+    - name: Setup xinetd
+      include_role:
+        name: amtega.xinetd
+
+    - name: Setup xinetd service package
+      include_role:
+        name: amtega.packages
+      when: xinetd_service_package is defined
+      vars:
+        packages_os:
+          all:
+            all:
+              - name: "{{ xinetd_service_package }}"
+                state: present
+
+    - name: Setup tcp wrappers
+      include_role:
+        name: amtega.tcpwrappers
+      vars:
+        tcpwrappers_allow: >-
+          {{ (lookup("template", "tcpwrappers.yml.j2") | from_yaml).allow }}
+        tcpwrappers_deny: >-
+          {{ (lookup("template", "tcpwrappers.yml.j2") | from_yaml).deny }}
+
     - name: Configure xinetd service
       template:
         src: service.j2
