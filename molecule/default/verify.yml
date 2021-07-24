@@ -11,14 +11,14 @@
         port: 7
         delay: 5
         timeout: 10
-      changed_when: false
+      changed_when: no
 
     - name: Check tcp wrappers allow file
       command: "grep 'echo-stream:127.0.0.1' /etc/hosts.allow"
       args:
         warn: no
       register: check_tcp_wrappers_allow_result
-      changed_when: false
+      changed_when: no
       failed_when: check_tcp_wrappers_allow_result.rc != 0
 
     - name: Check tcp wrappers deny file
@@ -26,5 +26,5 @@
       args:
         warn: no
       register: check_tcp_wrappers_deny_result
-      changed_when: false
+      changed_when: no
       failed_when: check_tcp_wrappers_deny_result.rc != 0
