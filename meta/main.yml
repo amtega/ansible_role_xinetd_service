@@ -14,9 +14,6 @@ galaxy_info:
       versions:
         - 6
         - 7
-    - name: Fedora
-      versions:
-        - 33
 
   galaxy_tags:
     - networking
@@ -27,8 +24,7 @@ dependencies:
   - role: amtega.check_platform
     vars:
       check_platform_distributions:
-        centos: 6
-        fedora: 33
+        centos: 6        
         redhat: 6
 
   - role: amtega.xinetd
