@@ -4,11 +4,7 @@
 - block:
     - name: Assert distribution is compatible
       assert:
-        that: >-
-          (ansible_facts.distribution | lower in ["centos", "redhat"]
-           and ansible_facts.distribution_major_version is version("8", "<"))
-          or (ansible_facts.distribution | lower == "fedora"
-           and ansible_facts.distribution_major_version is version("34", "<"))
+        that: ansible_facts.distribution_major_version is version("8", "<")
         fail_msg: Distribution is not compatible
 
     - name: Setup xinetd
